@@ -14,4 +14,9 @@ describe('StringCalculator', () => {
     it('should return 0 for an empty string', () => {
         expect(StringCalculator.add("")).toBe(0);
     });
+
+    it('should return the sum of 3 numbers in the string', () => {
+        expect(StringCalculator.add("1,2,3")).toBe(6);
+        expect(StringCalculator.add("4,5,6")).toBe(15);
+    });
 });
