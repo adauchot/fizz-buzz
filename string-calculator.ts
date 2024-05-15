@@ -19,6 +19,7 @@ export class StringCalculator {
         }
 
         return numbers.split(delimiter)
+            .filter(num => parseInt(num) <= 1000)
             .reduce((sum, num) => sum + parseInt(num), 0);
     }
 }
