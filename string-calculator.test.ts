@@ -29,4 +29,9 @@ describe('StringCalculator', () => {
         expect(StringCalculator.add("//;\n1;2")).toBe(3);
         expect(StringCalculator.add("//+\n1+2+3")).toBe(6);
     });
+
+    it('should handle negative numbers', () => {
+        expect(() => StringCalculator.add("-1,2")).toThrow("Negatives are not allowed: -1");
+        expect(() => StringCalculator.add("2,-4,3,-5")).toThrow("Negatives are not allowed: -4,-5");
+    });
 });
