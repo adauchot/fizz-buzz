@@ -10,12 +10,22 @@ export class StringCalculator {
 
         let delimiter = /[,\n]/;
 
-        const delimiterRegex = /\/\/(.)\n/;
+        const delimiterRegex = /\/\/(.+)\n/;
         const matchingRegex = delimiterRegex.exec(numbers);
 
         if (matchingRegex && matchingRegex.length > 0) {
-            delimiter = new RegExp(`[${matchingRegex[1]}]`);
-            numbers = numbers.slice(4);
+            let rawDelimiter = matchingRegex[1];
+            const rawDelimiterLength = rawDelimiter.length;
+
+            const rawDelimiterHasBrackets = rawDelimiter.startsWith('[') && rawDelimiter.endsWith(']');
+
+            if (rawDelimiterHasBrackets) {
+                rawDelimiter = rawDelimiter.slice(1, -1);
+            }
+
+            delimiter = new RegExp(`[${rawDelimiter}]`);
+            numbers = numbers.slice(3 + rawDelimiterLength);
+            console.log(numbers);
         }
 
         return numbers.split(delimiter)
