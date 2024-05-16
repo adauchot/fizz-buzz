@@ -25,7 +25,6 @@ export class StringCalculator {
 
             delimiter = new RegExp(`[${rawDelimiter}]`);
             numbers = numbers.slice(3 + rawDelimiterLength);
-            console.log(numbers);
         }
 
         return numbers.split(delimiter)
