@@ -2,12 +2,24 @@ export class StringCalculator {
     static add(numbers: string): number {
         if (numbers === "") return 0;
 
-        const negativeNumbersRegex = /-\d+/g;
-        const negativeNumbers = numbers.match(negativeNumbersRegex);
+        const negativeNumbers = StringCalculator.hasNegativeNumbers(numbers);
         if (negativeNumbers && negativeNumbers.length > 0) {
             throw new Error(`Negatives are not allowed: ${negativeNumbers.join(",")}`);
         }
 
+        const delimiting = StringCalculator.findDelimiter(numbers);
+        let delimiter = delimiting.delimiter;
+
+        if (delimiting.rawDelimiterLength > 0) {
+            numbers = numbers.slice(3 + delimiting.rawDelimiterLength);
+        }
+
+        return numbers.split(delimiter)
+            .filter(num => parseInt(num) <= 1000)
+            .reduce((sum, num) => sum + parseInt(num), 0);
+    }
+
+    private static findDelimiter(numbers: string) {
         let delimiter = /[,\n]/;
 
         const delimiterRegex = /\/\/(.+)\n/;
@@ -27,11 +39,14 @@ export class StringCalculator {
                 delimiter = new RegExp(`[${rawDelimiter}]`);
             }
 
-            numbers = numbers.slice(3 + rawDelimiterLength);
+            return {delimiter, rawDelimiterLength};
         }
 
-        return numbers.split(delimiter)
-            .filter(num => parseInt(num) <= 1000)
-            .reduce((sum, num) => sum + parseInt(num), 0);
+        return {delimiter, rawDelimiterLength: 0};
+    }
+
+    private static hasNegativeNumbers(numbers: string) {
+        const negativeNumbersRegex = /-\d+/g;
+        return numbers.match(negativeNumbersRegex);
     }
 }
