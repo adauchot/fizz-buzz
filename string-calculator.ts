@@ -21,9 +21,12 @@ export class StringCalculator {
 
             if (rawDelimiterHasBrackets) {
                 rawDelimiter = rawDelimiter.slice(1, -1);
+                const delimiters = rawDelimiter.split('][');
+                delimiter = new RegExp(`[${delimiters.join('')}]+`);
+            } else {
+                delimiter = new RegExp(`[${rawDelimiter}]`);
             }
 
-            delimiter = new RegExp(`[${rawDelimiter}]`);
             numbers = numbers.slice(3 + rawDelimiterLength);
         }
 
